@@ -63,7 +63,7 @@ sp.id";
 //-------------------ADMIN------------------//
 function insert_sp($iddm, $name, $img, $img2, $img3, $gia, $gia_new, $mota, $soluong, $xuatxu, $kieumay)
 {
-    $sql = "INSERT INTO `sanpham`(`iddm`, `name`, `img`,`img2`,`img3`, `gia`, `gia_new`, `mota`, `soluong`, `xuatxu`, `kieumay`) VALUES 
+    $sql = "INSERT INTO `sanpham`(`iddm`, `name`, `img`,`img2`,`img3`, `gia`, `gia_new`, `mota`, `soluong`, `xuatxu`, `kieumay` ) VALUES 
     ('$iddm','$name','$img', '$img2', '$img3','$gia','$gia_new','$mota','$soluong','$xuatxu','$kieumay')";
     pdo_execute($sql);
 }
@@ -96,4 +96,64 @@ function update_sp($id, $iddm, $name, $img, $img2, $img3, $gia, $gia_new, $mota,
         `kieumay` = '$kieumay'
         WHERE `id` = $id";
     pdo_execute($sql);
+}
+function loadstar()
+{
+    $sql = "SELECT
+    sp.id,
+    sp.name,
+    sp.img,
+    sp.gia,
+    sp.gia_new,
+    sp.mota,
+    sp.soluong,
+    sp.xuatxu,
+    sp.kieumay,
+    sp.iddm,
+    IFNULL(AVG(bl.star), 0) AS avg_star
+FROM
+    sanpham sp
+LEFT JOIN
+    binhluan bl ON sp.id = bl.id_pro
+where sp.trangthai = '0'
+GROUP BY
+    sp.id
+ORDER BY
+    sp.id DESC limit 0,10";
+    return pdo_query($sql);
+}
+function load_sp_luotxem()
+{
+    $sql = "SELECT
+    sp.id,
+    sp.name,
+    sp.luotxem,
+    sp.img,
+    SUM(bl.star) AS tong_sao
+  FROM
+    sanpham sp
+  LEFT JOIN
+    binhluan bl ON sp.id = bl.id_pro
+  GROUP BY
+    sp.id, sp.name, sp.luotxem
+  ORDER BY
+    sp.luotxem DESC limit 0,10";
+    return pdo_query($sql);
+}
+function load_sp_star()
+{
+    $sql = "
+    SELECT sp.*,
+    IFNULL(AVG(bl.star), 0) AS avg_star
+FROM
+    sanpham sp
+LEFT JOIN
+    binhluan bl ON sp.id = bl.id_pro
+GROUP BY
+    sp.id
+ORDER BY
+    avg_star DESC
+LIMIT 0,5
+    ";
+    return pdo_query($sql);
 }

@@ -64,7 +64,7 @@ if (isset($_POST['btn']) && $_POST['btn']) {
             if (!is_array($dangnhap)) {
                 $err =  'Tài khoản hoặc mật khẩu không đúng';
             } else {
-                $_SESSION['count_cart'] = count(count_cart($dangnhap['id']));
+                // $_SESSION['count_cart'] = count(count_cart($dangnhap['id']));
                 $_SESSION['role'] = $dangnhap['role'];
                 $_SESSION['user'] = $user;
                 $_SESSION['iduser'] = $dangnhap['id'];
@@ -79,7 +79,7 @@ if (isset($_POST['btn']) && $_POST['btn']) {
                 }
             }
         } elseif ($_GET['act'] == 'dangky') {
-            insert_taikhoan($user, $email, $pass, 0);
+            insert_taikhoan($user, $email, $pass);
             header('Location: dangnhap.php?act=dangnhap');
         }
     }

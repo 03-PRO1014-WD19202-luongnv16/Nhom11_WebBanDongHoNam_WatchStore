@@ -13,7 +13,7 @@ function loadall_taikhoan($key = "", $idtk = 0)
 }
 function insert_taikhoan($user, $email, $pass)
 {
-    $sql = "INSERT INTO taikhoan(user,email,pass) values('$user','$email','$pass')";
+    $sql = "INSERT INTO taikhoan(user,email,pass, role , checkname) values('$user','$email','$pass', 0,0 )";
     pdo_execute($sql);
 }
 

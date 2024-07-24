@@ -89,7 +89,7 @@
             </li>
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link" href="?act=list_donhang">
+                <a class="nav-link" href="">
                     <i class="fa-solid fa-truck-arrow-right"></i>
                     <span>Quản lý đơn hàng</span>
                 </a>
@@ -107,7 +107,7 @@
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link" href="?act=list_binhluan">
+                <a class="nav-link" href="">
                     <i class="fa-solid fa-comment-dots"></i>
                     <span>Quản lý bình luận</span>
                 </a>

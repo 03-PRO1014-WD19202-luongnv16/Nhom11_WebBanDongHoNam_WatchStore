@@ -86,6 +86,7 @@ if (isset($_GET['act']) && ($_GET['act'] != "")) {
                     $xuatxu = $_POST['xuatxu'];
                     $kieumay = $_POST['kieumay'];
                     $mota = $_POST['mota'];
+            
                     //Kiem tra trung ten san pham
                     $listone_sp = loadAll_sanpham($name, 0);
                     if (is_array($listone_sp) && count($listone_sp) > 0) {
@@ -103,7 +104,7 @@ if (isset($_GET['act']) && ($_GET['act'] != "")) {
                             $img3 = time() . "_" . $_FILES['img3']['name'];
                             move_uploaded_file($_FILES['img3']['tmp_name'], "../uploads/img_sp/$img3");
                         }
-                        insert_sp($iddm, $name, $img, $img2, $img3, $gia, $gia_new, $mota, $soluong, $xuatxu, $kieumay);
+                        insert_sp($iddm, $name, $img, $img2, $img3, $gia, $gia_new, $mota, $soluong, $xuatxu, $kieumay );
                         $thongbao = "Thêm sản phẩm thành công";
                     }
                 }
@@ -132,6 +133,11 @@ if (isset($_GET['act']) && ($_GET['act'] != "")) {
                 }
                 include "./sanpham/trash.php";
                 break;
+            case "list_tk": {
+                    $list_tk = loadall_taikhoan();
+                    include "./taikhoan/list_tk.php";
+                    break;
+                }
         case "update_sp": {
                 if (isset($_GET['id']) && ($_GET['id'] > 0)) {
                     $list_dm = loadAll_danhmuc();
