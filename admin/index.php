@@ -1,13 +1,17 @@
 <?php
+ob_start();
+session_start();
 include "header.php";
 include "../model/pdo.php";
 include "../model/danhmuc.php";
 include "../model/sanpham.php";
 include "../model/taikhoan.php";
+include "../model/donhang.php";;
+include "../model/binhluan.php";
 include "../global.php";
 
-
 $count_sp = count(loadAll_sanpham());
+;
 $loadAll_sanpham_trang_thai_1 = loadAll_sanpham_trang_thai_1();
 if (isset($_GET['act']) && ($_GET['act'] != "")) {
     $act = $_GET['act'];
@@ -86,7 +90,6 @@ if (isset($_GET['act']) && ($_GET['act'] != "")) {
                     $xuatxu = $_POST['xuatxu'];
                     $kieumay = $_POST['kieumay'];
                     $mota = $_POST['mota'];
-            
                     //Kiem tra trung ten san pham
                     $listone_sp = loadAll_sanpham($name, 0);
                     if (is_array($listone_sp) && count($listone_sp) > 0) {
@@ -104,7 +107,7 @@ if (isset($_GET['act']) && ($_GET['act'] != "")) {
                             $img3 = time() . "_" . $_FILES['img3']['name'];
                             move_uploaded_file($_FILES['img3']['tmp_name'], "../uploads/img_sp/$img3");
                         }
-                        insert_sp($iddm, $name, $img, $img2, $img3, $gia, $gia_new, $mota, $soluong, $xuatxu, $kieumay );
+                        insert_sp($iddm, $name, $img, $img2, $img3, $gia, $gia_new, $mota, $soluong, $xuatxu, $kieumay);
                         $thongbao = "Thêm sản phẩm thành công";
                     }
                 }
@@ -114,6 +117,18 @@ if (isset($_GET['act']) && ($_GET['act'] != "")) {
         case "delete_sp": {
                 if (isset($_GET['id']) && ($_GET['id'] > 0)) {
                     $loadone_sp = loadAll_sanpham("", $_GET['id']);
+                    // if (isset($loadone_sp[0]['img']) && ($loadone_sp[0]['img'] != "")) {
+                    //     $link = "../uploads/img_sp/" . $loadone_sp[0]['img'];
+                    //     unlink("$link");
+                    // }
+                    // if (isset($loadone_sp[0]['img2']) && ($loadone_sp[0]['img2'] != "")) {
+                    //     $link = "../uploads/img_sp/" . $loadone_sp[0]['img2'];
+                    //     unlink("$link");
+                    // }
+                    // if (isset($loadone_sp[0]['img3']) && ($loadone_sp[0]['img3'] != "")) {
+                    //     $link = "../uploads/img_sp/" . $loadone_sp[0]['img3'];
+                    //     unlink("$link");
+                    // }
                     delete_sp($_GET['id']);
                     header('location: index.php?act=list_sp');
                 }
@@ -133,11 +148,6 @@ if (isset($_GET['act']) && ($_GET['act'] != "")) {
                 }
                 include "./sanpham/trash.php";
                 break;
-            case "list_tk": {
-                    $list_tk = loadall_taikhoan();
-                    include "./taikhoan/list_tk.php";
-                    break;
-                }
         case "update_sp": {
                 if (isset($_GET['id']) && ($_GET['id'] > 0)) {
                     $list_dm = loadAll_danhmuc();
@@ -179,6 +189,74 @@ if (isset($_GET['act']) && ($_GET['act'] != "")) {
                 }
                 $list_dm = loadAll_danhmuc();
                 include './sanpham/update_sp.php';
+                break;
+            }
+            //quan ly tai khoan
+        case "list_tk": {
+                $list_tk = loadall_taikhoan();
+                include "./taikhoan/list_tk.php";
+                break;
+            }
+        case "update_tk": {
+                if (isset($_GET['id']) && ($_GET['id'] > 0)) {
+                    $loadone_tk = loadall_taikhoan("", $_GET['id']);
+                    if (isset($_POST['submit']) && ($_POST['submit'])) {
+                        $role = $_POST['role'];
+                        update_role($_GET['id'], $role);
+                        header('location: index.php?act=list_tk');
+                    }
+                }
+                include './taikhoan/update_tk.php';
+                break;
+            }
+        case "list_donhang": {
+                $list_donhang = loadall_donhang();
+                include "./donhang/list_donhang.php";
+                break;
+            }
+        case "update_donhang": {
+                if (isset($_GET['id']) && ($_GET['id'] > 0)) {
+                    $loadone_dh = loadall_donhang($_GET['id']);
+                    $loadone_ctdh = loadone_chitietdonhang($_GET['id']);
+                    if (isset($_POST['submit']) && ($_POST['submit'])) {
+                        $name = $_POST['name'];
+                        $tel = $_POST['tel'];
+                        $address = $_POST['address'];
+                        if (isset($_POST['trangthai'])) {
+                            $trangthai = $_POST['trangthai'];
+                        } else {
+                            $trangthai = 4;
+                        }
+
+
+                        if (isset($_POST['ghichu']) && $_POST['ghichu']  != "") {
+                            $ghichu = $_POST['ghichu'];
+                        } else {
+                            $ghichu = "";
+                        }
+                        update_donhang($_GET['id'], $name, $tel, $address, $ghichu, $trangthai);
+                        header('location: index.php?act=list_donhang');
+                    }
+                }
+                include './donhang/update_donhang.php';
+                break;
+            }
+
+            //quan ly ct don hang
+        case "list_ctdh": {
+                $loadall_ctdh = loadall_chitietdonhang();
+                include "./donhang/list_ctdh.php";
+                break;
+            }
+        case 'dangxuat':
+            session_unset();
+            header('location: ../index.php');
+            break;
+
+
+            //thong ke
+        case "thongke": {
+                include "./thongke/thongke.php";
                 break;
             }
     }
