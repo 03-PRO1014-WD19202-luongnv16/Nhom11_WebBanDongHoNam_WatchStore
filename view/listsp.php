@@ -74,6 +74,7 @@ include "global.php";
                 </select>
             </div>
             <button name="submit" type="submit" value="submit">Lọc</button>
+            <!-- Post để xử lý và hiển thị -->
         </form>
         <div class="block mt listsp">
             <?php
@@ -97,7 +98,7 @@ include "global.php";
                             <i class="fa-solid fa-star"></i> <span>(<?= number_format($value['avg_star'], 1) ?>)</span> <br />
                             <!-- <span>Đã mua 4.5k</span> -->
                         </p>
-                        <p><a href="?act=thanhtoan&idsp=<?= $value['id'] ?>"><button>Mua Ngay</button></a></p>
+                        <p><a href="?act=thanhtoan&idsp=<?= $value['id'] ?>"><button>Mua Ngay</button></a></p>             
                     </div>
                 </div>
 
