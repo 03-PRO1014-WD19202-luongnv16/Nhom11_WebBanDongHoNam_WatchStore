@@ -141,13 +141,6 @@ if (isset($_GET['act']) && ($_GET['act'] != "")) {
                 include "./sanpham/list_sp.php";
                 break;
             }
-            case "trash" :
-                if(isset($_GET['id']) && $_GET['id'] > 0){
-                    khoiphuc_sp($_GET['id']);
-                    header('location: index.php?act=trash');
-                }
-                include "./sanpham/trash.php";
-                break;
         case "update_sp": {
                 if (isset($_GET['id']) && ($_GET['id'] > 0)) {
                     $list_dm = loadAll_danhmuc();
@@ -252,6 +245,11 @@ if (isset($_GET['act']) && ($_GET['act'] != "")) {
             session_unset();
             header('location: ../index.php');
             break;
+        case "list_binhluan": {
+            $load_bl_sp_admin = load_bl_sp_admin();
+            include "./binhluan/list_binhluan.php";
+            break;
+        }
 
 
             //thong ke
